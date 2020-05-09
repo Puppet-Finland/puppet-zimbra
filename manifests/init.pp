@@ -9,21 +9,18 @@
 # Refer to the official documentation for standard parameters usage.
 # Look at the code for the list of supported parametes and their defaults.
 #
-class zimbra (
+class zimbra(
 
   $install_source           = $::zimbra::params::install_source,
+  $zimbra_version           = $::zimbra::params::version,
   $install_destination      = '/opt',
-
   $license_template         = 'zimbra/ZCSLicense.xml',
-
   $default_configs_template = 'zimbra/defaults.erb',
   $prerequisites_class      = '::zimbra::prerequisites',
-
   $options_hash             = {},
-
   $debug                    = 'on_failure',
-
-  ) inherits zimbra::params {
+  
+) inherits zimbra::params {
 
 
   $created_dir = url_parse($install_source,'filedir')
@@ -33,6 +30,14 @@ class zimbra (
   # Resources Managed
   if $prerequisites_class and $prerequisites_class != '' {
     include $prerequisites_class
+  }
+
+  archive { "/tmp//zimbra.tgz":
+    extract      => true,
+    extract_path => $install_destination,
+    source       => $install_source,
+    # creates      => "/opt/keycloak-${keycloak_version}/standalone",
+    cleanup      => true,
   }
 
   puppi::netinstall { 'netinstall_zimbra':

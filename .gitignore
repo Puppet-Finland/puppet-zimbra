@@ -11,3 +11,4 @@ Gemfile.lock
 Session.vim
 metadata.json
 spec/fixtures
+vagrant/modules

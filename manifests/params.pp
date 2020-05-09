@@ -3,18 +3,19 @@
 # Defines all the variables used in the module.
 #
 class zimbra::params {
-
+  
   $install_source = $::osfamily ? {
     'Debian' => $::operatingsystemrelease ? {
-      '12.04' => 'https://files.zimbra.com/downloads/8.6.0_GA/zcs-NETWORK-8.6.0_GA_1153.UBUNTU12_64.20141215195643.tgz',
-      '14.04' => 'https://files.zimbra.com/downloads/8.6.0_GA/zcs-NETWORK-8.6.0_GA_1153.UBUNTU14_64.20141215151218.tgz',
+      '14.04' => 'https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.UBUNTU14_64.20190918004220.tgz',
+      '16.04' => 'https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.UBUNTU16_64.20190918004220.tgz',
+      '18.04' => 'https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.UBUNTU18_64.20190918004220.tgz',
     },
     'RedHat' => $::operatingsystemmajrelease ? {
-      '6' => 'https://files.zimbra.com/downloads/8.6.0_GA/zcs-NETWORK-8.6.0_GA_1153.RHEL6_64.20141215151258.tgz',
-      '7' => 'https://files.zimbra.com/downloads/8.6.0_GA/zcs-NETWORK-8.6.0_GA_1153.RHEL7_64.20141215151204.tgz',
+      '6' => 'https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.RHEL6_64.20190918004220.tgz',
+      '7' => 'https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.RHEL7_64.20190918004220.tgz',
     },
   }
-
+  
   $default_options = {
     'AVDOMAIN' => $::domain,
     'AVUSER' => "admin@${::domain}",
