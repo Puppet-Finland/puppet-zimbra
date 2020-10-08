@@ -20,10 +20,10 @@
 # @param debug
 #   Debug option
 class zimbra(
-  Array[String] $required_packages, 
+  Array[String] $required_packages,
   Array[String] $absent_packages,
-  String $install_source,        
-  String $install_destination,     
+  String $install_source,
+  String $install_destination,
   Hash $default_options,
   Hash $options_hash,
   String $fqdn_interface,

@@ -5,9 +5,11 @@ class zimbra::install {
 
   assert_private()
 
-  if $facts['osfamily'] == 'RedHat' {
-    class { 'selinux':
-      mode => 'permissive',
+  if $facts['virtual'] == 'virtualbox' {
+    if $facts['osfamily'] == 'RedHat' {
+      class { 'selinux':
+        mode => 'permissive',
+      }
     }
   }
 

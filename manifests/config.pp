@@ -6,7 +6,7 @@ class zimbra::config {
   assert_private()
 
   $locales = (['en_US.UTF-8 UTF-8'] << $zimbra::default_locale).unique
-  
+
   class { 'locales':
     default_locale => $zimbra::default_locale,
     locales        => $locales,
