@@ -1,63 +1,44 @@
 #
-# = Class: zimbra
+# @summary Manage Zimbra Collaboration Server install
 #
-# This class installs and manages zimbra
-#
-#
-# == Parameters
-#
-# Refer to the official documentation for standard parameters usage.
-# Look at the code for the list of supported parametes and their defaults.
-#
+# @param required_packages
+#   Required packages for the osfamily
+# @param absent_packages
+#    Packages that need to be absent
+# @param install_source
+#   Install source for ZCS
+# @param install_destination
+#   Installation destination
+# @param options_hash
+#   options to override defaults
+# @param fqdn_interface
+#   The interface for the fully qualified interface
+# @param default_options
+#   Default options
+# @param $default_configs_template
+#   Default configs_template
+# @param debug
+#   Debug option
 class zimbra(
+  Array[String] $required_packages, 
+  Array[String] $absent_packages,
+  String $install_source,        
+  String $install_destination,     
+  Hash $default_options,
+  Hash $options_hash,
+  String $fqdn_interface,
+  String $default_configs_template,
+  Enum['true', 'false', 'on_failure'] $debug = 'on_failure',
+  String $default_locale = 'en_US.UTF-8',
+) {
 
-  $install_source           = $::zimbra::params::install_source,
-  $zimbra_version           = $::zimbra::params::version,
-  $install_destination      = '/opt',
-  $license_template         = 'zimbra/ZCSLicense.xml',
-  $default_configs_template = 'zimbra/defaults.erb',
-  $prerequisites_class      = '::zimbra::prerequisites',
-  $options_hash             = {},
-  $debug                    = 'on_failure',
-  
-) inherits zimbra::params {
+  contain 'zimbra::install'
+  contain 'zimbra::config'
+  contain 'zimbra::service'
 
+  Class['zimbra::install']
+  -> Class['zimbra::config']
+  -> Class['zimbra::service']
 
-  $created_dir = url_parse($install_source,'filedir')
-  $install_dir = "${install_destination}/${created_dir}"
-  $options = merge($::zimbra::params::default_options,$options_hash)
-
-  # Resources Managed
-  if $prerequisites_class and $prerequisites_class != '' {
-    include $prerequisites_class
-  }
-
-  archive { "/tmp//zimbra.tgz":
-    extract      => true,
-    extract_path => $install_destination,
-    source       => $install_source,
-    # creates      => "/opt/keycloak-${keycloak_version}/standalone",
-    cleanup      => true,
-  }
-
-  puppi::netinstall { 'netinstall_zimbra':
-    url                 => $install_source,
-    destination_dir     => $install_destination,
-  } ->
-
-  file { "${install_dir}/defaults.conf":
-    content => template($default_configs_template),
-    mode    => '0600',
-  } ->
-  file { "/opt/ZCSLicense.xml":
-    content => template($license_template),
-  } ->
-  exec { 'Zimbra_installation':
-    command   => "${install_dir}/install.sh ${install_dir}/defaults.conf",
-    cwd       => $install_dir,
-    creates   => '/opt/zimbra/conf/log4j.properties',
-    timeout   => '1800',
-    logoutput => $debug,
-  }
-
+  Class['zimbra::config'] ~> Class['zimbra::service']
 }

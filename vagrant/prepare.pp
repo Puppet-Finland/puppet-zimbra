@@ -1,6 +1,6 @@
 notify { 'Preparing for setup': }
 
-$tools = [ 'emacs-nox', 'tcpdump', 'strace', 'nmap', 'screen', 'net-tools' ]
+$tools = [ 'emacs-nox', 'tcpdump', 'strace', 'nmap', 'net-tools', 'git' ]
 
 package { $tools:
   ensure  => 'installed',
@@ -18,9 +18,4 @@ exec { 'Update modules':
   timeout   => 600,
   path      => ['/bin','/usr/bin','/opt/puppetlabs/bin','/opt/puppetlabs/puppet/bin'],
 }
-
-package { 'git':
-  ensure => 'latest',
-}
-
 

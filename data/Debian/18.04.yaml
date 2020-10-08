@@ -1,0 +1,11 @@
+install_source: 'https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.UBUNTU18_64.20190918004220.tgz'
+required_packages:
+  - sysstat
+  - sqlite3
+  - pax
+  - libperl5.18
+  - libaio1
+  - unzip
+
+absent_packages:
+  - postfix

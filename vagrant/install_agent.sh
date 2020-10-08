@@ -11,8 +11,10 @@ detect_osfamily() {
         RELEASE=$(cat /etc/redhat-release)
 	if [ "`echo $RELEASE | grep -E 7\.[0-9]+`" ]; then
             RHEL_VERSION="7"
+        elif [ "`echo $RELEASE | grep -E 8\.[0-9]+`" ]; then
+            RHEL_VERSION="8"
         else
-            echo "Unsupported Redhat/Centos version. Supported versions are 7.x"
+            echo "Unsupported Redhat/Centos version. Supported versions are 7.x and 8.x"
             exit 1
         fi
     elif [ "`lsb_release -d | grep -E '(Ubuntu|Debian)'`" ]; then
@@ -37,7 +39,7 @@ setup_puppet() {
         true
     else
         if [ $RHEL_VERSION ]; then
-            RELEASE_URL="https://yum.puppetlabs.com/puppet5/puppet5-release-el-${RHEL_VERSION}.noarch.rpm"
+            RELEASE_URL="https://yum.puppetlabs.com/puppet6/puppet-release-el-${RHEL_VERSION}.noarch.rpm"
             rpm -hiv "${RELEASE_URL}" || (c=$?; echo "Failed to install ${RELEASE_URL}"; (exit $c))
             yum -y install puppet-agent || (c=$?; echo "Failed to install puppet agent"; (exit $c))
             if systemctl list-unit-files --type=service | grep firewalld; then

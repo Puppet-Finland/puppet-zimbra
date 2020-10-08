@@ -1,0 +1,13 @@
+install_source: 'https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.RHEL6_64.20190918004220.tgz'
+required_packages:
+  - sysstat
+  - libaio
+  - unzip
+  - perl-core
+  - nmap-ncat
+  - wget
+  - net-tools
+  - openssh-clients
+
+absent_packages:
+  - postfix

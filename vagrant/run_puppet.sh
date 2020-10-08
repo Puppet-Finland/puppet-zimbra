@@ -36,12 +36,11 @@ done
 CWD=`pwd`
 
 # Configure with "puppet apply"
-PUPPET_APPLY="/opt/puppetlabs/bin/puppet apply --modulepath=$BASEDIR/modules"
+PUPPET_APPLY="/opt/puppetlabs/bin/puppet apply --modulepath=$BASEDIR/modules --debug"
 
 # Pass variables to Puppet manifests via environment variables
-export FACTER_profile='/etc/profile.d/openvpn.sh'
+export FACTER_profile='/etc/profile.d/myprofile.sh'
 export FACTER_basedir="$BASEDIR"
-export FACTER_zimbra_install_source='https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.RHEL7_64.20190918004220.tgz'
 
 for manifest in $MANIFESTS; do
     $PUPPET_APPLY /vagrant/$manifest
