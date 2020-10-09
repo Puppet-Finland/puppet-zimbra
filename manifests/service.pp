@@ -23,10 +23,6 @@ class zimbra::service {
   service { 'zimbra':
     ensure  => 'running',
     enable  => true,
-    require =>
-    [
-      Service['postfix'],
-      Service['unbound'],
-    ],
+    require => Service['postfix'],
   }
 }
