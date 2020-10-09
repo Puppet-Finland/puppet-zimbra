@@ -12,5 +12,5 @@ zimbra::required_packages:
   - openssh-clients
 
 zimbra::absent_packages:
-  - postfix
+
 
